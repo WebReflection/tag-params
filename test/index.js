@@ -25,3 +25,10 @@ expect(params('Hello ${user}', {user: 'test'}), 2, 'Hello test', 'namespace is O
 expect(params('Hello ${function (){}}'), 2, 'Hello function (){}', 'inner curly is OK');
 expect(params('${[1,2,3]}'), 2, '1,2,3', 'array is OK');
 expect(partial('a${123}b', () => 456)(), 2, 'a456b', 'partial is OK');
+
+const update = partial('Hello ${user}!');
+console.assert(
+  update({user: 'First'})[0] ===
+  update({user: 'Second'})[0],
+  'partial returns always the same template'
+);

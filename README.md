@@ -58,14 +58,14 @@ Please note this module inevitably needs/uses `Function` to evaluate the code wi
 
 There are 3 utilities exported by this module, so that accordingly with your import, you should get:
 
-  * `params`, the _default_, which parses and resolves _values_ in one go.
+  * `params`, the main utility, which parses and resolves _values_ in one go.
   * `parse`, which returns a `{template, values}` object, with mapped "_chunks_" in the template, and the list of _values_ (interpolations/holes), where each value is a string.
   * `partial`, which uses `parse` and returns a callback that will map new values through the optional `object` passed along.
 
 
 ### params(content:string[, object:any]):Array
 
-It's the `default` use case of this utility. It parses the `content` and returns a `[template, ...values]` _Array_ with values retrieved through the optional `object`. If no `object` is passed along, it simply evaluates interpolations as plain JavaScript.
+It's the "_default_" use case of this utility. It parses the `content` and returns a `[template, ...values]` _Array_ with values retrieved through the optional `object`. If no `object` is passed along, it simply evaluates interpolations as plain JavaScript.
 
 This utility is a shortcut for a one-off `partial(content)(object)` call.
 
@@ -102,7 +102,7 @@ console.assert(
 );
 ```
 
-The main advantage of this utility is that it parses the `content`, and creates the `template` _Array_, only once, meaning every template literal based library could benefit from it, using the uniqueness of the `template` to parse complex chunks of _HTML_, or anything else, once, enabling repeated updates at almost zero cost.
+The main advantage of this utility is that it parses the `content` and it creates the `template` _Array_ only **once**, meaning every template literal based library could benefit from it, using the uniqueness of the `template` to parse complex chunks of _HTML_, or anything else, once, enabling repeated updates at almost zero performance cost.
 
 
 
