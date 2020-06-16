@@ -1,7 +1,7 @@
 {
   "name": "tag-params",
   "version": "0.0.0",
-  "description": "",
+  "description": "Transform a generic string into parameters suitable for template literals functions tags",
   "main": "./cjs/index.js",
   "scripts": {
     "build": "npm run cjs && npm run rollup:es && npm run rollup:babel && npm run min && npm run fix:default && npm run test",
@@ -13,8 +13,8 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "test": "nyc node test/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["template", "tag", "parameters", "transformer"],
+  "author": "Andrea Giammarchi",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -34,5 +34,13 @@
     "import": "./esm/index.js",
     "default": "./cjs/index.js"
   },
-  "unpkg": "min.js"
+  "unpkg": "min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/tag-params.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WebReflection/tag-params/issues"
+  },
+  "homepage": "https://github.com/WebReflection/tag-params#readme"
 }
