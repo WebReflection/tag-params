@@ -1,6 +1,6 @@
 {
   "name": "tag-params",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Transform a generic string into parameters suitable for template literals functions tags",
   "main": "./cjs/index.js",
   "scripts": {
