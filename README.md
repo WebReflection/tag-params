@@ -50,3 +50,6 @@ render(
 ```
 
 Please note this module inevitably needs/uses `Function` to evaluate the code within a `with` statement.
+
+## Related
+- [uhtml](https://github.com/WebReflection/uhtml) - A micro HTML/SVG render 
