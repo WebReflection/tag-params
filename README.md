@@ -21,3 +21,32 @@ console.log(
 // invoke tags through the returned parameters
 genericTag(...tagParams(content, namespace));
 ```
+
+The most requested use case for this is likely landing templates on the page and use their content, [as shown in this CodePen example](https://codepen.io/WebReflection/pen/OJMRZow?editors=0010):
+
+```html
+<template id="list">
+  <ul>${items.map(function (item) {
+    return html`<li>${item.text}</li>`;
+  })}</ul>
+</template>
+<div id="app"></div>
+
+<script type="module">
+import tagParams from '//unpkg.com/tag-params?module';
+import {render, html} from '//unpkg.com/uhtml?module';
+
+render(
+  document.getElementById('app'),
+  html(...tagParams(
+    document.getElementById('list').innerHTML,
+    {
+      html,
+      items: [{text: 'first'}, {text: 'second'}]
+    }
+  ))
+);
+</script>
+```
+
+Please note this module inevitably needs/uses `Function` to evaluate the code within a `with` statement.
