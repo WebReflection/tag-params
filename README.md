@@ -112,7 +112,7 @@ The current interpolations parser is extremely rudimental, it simply skips extra
 
 This means that if an interpolation contains a string such as `${"breaking { char"}` or `${"breaking } char"}` the result will break.
 
-The good practice here is to pass strings via the `object`, instead of hard coding these within interpolations, as this won't likely get fixed any time soon.
+The good practice here is to pass strings via the `object`, instead of hard coding these within interpolations, as this won't likely get fixed any time soon (if ever).
 
 
 
