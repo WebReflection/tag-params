@@ -1,7 +1,24 @@
 const noop = s => s;
 
+/**
+ * Given a string and an optional object carrying references used through
+ * such string interpolation, returns an array that can be used within any
+ * template literal function tag.
+ * @param {string} content the string to parse/convert as template chunks
+ * @param {any} [object] the optional data to evaluate as interpolated values
+ * @returns {Array} a [[chunks], ...values] array to use as template tag args
+ */
 export const params = (content, object) => partial(content)(object);
 
+/**
+ * Given a string and an optional function used to transform each value
+ * found as interpolated content, returns an object with a `template` and
+ * a `values` properties, as arrays, containing the template chunks,
+ * and all its interpolations as strings.
+ * @param {string} content the string to parse/convert as template chunks
+ * @param {function} [transform] the optional function to modify string values
+ * @returns {object} an object with `template` and `values` arrays.
+ */
 export const parse = (content, transform) => {
   const fn = transform || noop;
   const template = [];
@@ -32,6 +49,15 @@ export const parse = (content, transform) => {
   return {template, values};
 };
 
+/**
+ * Given a string and an optional function used to transform each value
+ * found as interpolated content, returns a callback that can be used to
+ * repeatedly generate new content from the same template array.
+ * @param {string} content the string to parse/convert as template chunks
+ * @param {function} [transform] the optional function to modify string values
+ * @returns {function} a function that accepts an optional object to generate
+ *                     new content, through the same template, each time.
+ */
 export const partial = (content, transform) => {
   const {template, values} = parse(content, transform);
   const interpolations = 'return[' + values + ']';
