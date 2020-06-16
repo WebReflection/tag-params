@@ -1,5 +1,11 @@
 'use strict';
-const parse = content => {
+const noop = s => s;
+
+const params = (content, object) => partial(content)(object);
+exports.params = params;
+
+const parse = (content, transform) => {
+  const fn = transform || noop;
   const template = [];
   const values = [];
   const {length} = content;
@@ -10,13 +16,15 @@ const parse = content => {
       template.push(content.slice(i, open));
       open = (i = open + 2);
       let close = 1;
-      while (i < length) {
+      // TODO: this *might* break if the interpolation has strings
+      //       containing random `{}` chars ... but implementing
+      //       a whole JS parser here doesn't seem worth it
+      //       for such irrelevant edge-case ... or does it?
+      while (0 < close && i < length) {
         const c = content[i++];
         close += c === '{' ? 1 : (c === '}' ? -1 : 0);
-        if (close < 1)
-          break;
       }
-      values.push(content.slice(open, i - 1));
+      values.push(fn(content.slice(open, i - 1)));
     }
     else {
       template.push(content.slice(i));
@@ -25,10 +33,14 @@ const parse = content => {
   }
   return {template, values};
 };
+exports.parse = parse;
 
-module.exports = (content, object) => {
-  const {template, values} = parse(content);
+const partial = (content, transform) => {
+  const {template, values} = parse(content, transform);
   const interpolations = 'return[' + values + ']';
-  const prefix = object ? 'with(arguments[0])' : '';
-  return [template].concat(Function(prefix + interpolations)(object));
+  return object => {
+    const prefix = object ? 'with(arguments[0])' : '';
+    return [template].concat(Function(prefix + interpolations)(object));
+  };
 };
+exports.partial = partial;
