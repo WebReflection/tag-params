@@ -70,11 +70,13 @@ It's the `default` use case of this utility. It parses the `content` and returns
 This utility is a shortcut for a one-off `partial(content)(object)` call.
 
 
-### parse(content:string[, transform:function]):Array
+### parse(content:string[, transform:function]):({template:Array, values:Array})
 
 It parses a string, and it uses the optional `transform` callback, which is _no-op_ as default, to assign each _value_ to the list of expected _values_.
 
 The `transform` optional callback is specially useful when the interpolated content might contains _HTML_ normalized chars, such as `value =&gt; stuff(value)` instead of `value => stuff(value)`, which is normal when the content is retrieved via `element.innerHTML`, as example.
+
+The `template` property contains all chunks around `${...}` interpolations, while `values` contains all interpolations content as string.
 
 
 ### partial(content:string[, transform:function]):function
