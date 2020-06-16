@@ -1,6 +1,6 @@
 {
   "name": "tag-params",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Transform a generic string into parameters suitable for template literals functions tags",
   "main": "./cjs/index.js",
   "scripts": {
@@ -13,7 +13,12 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "test": "nyc node test/index.js"
   },
-  "keywords": ["template", "tag", "parameters", "transformer"],
+  "keywords": [
+    "template",
+    "tag",
+    "parameters",
+    "transformer"
+  ],
   "author": "Andrea Giammarchi",
   "license": "ISC",
   "devDependencies": {
