@@ -102,7 +102,7 @@ console.assert(
 );
 ```
 
-The main advantage of this utility is that it parses the `content` and it creates the `template` _Array_ only **once**, meaning every template literal based library could benefit from it, using the uniqueness of the `template` to parse complex chunks of _HTML_, or anything else, once, enabling repeated updates at almost zero performance cost.
+The main advantage of this utility is that it parses the `content` and it creates the `template` _Array_ only **once**, meaning every template literal based library could benefit from it, using the uniqueness of the `template` to parse complex chunks of _HTML_, or anything else, once, enabling repeated updates at almost zero performance cost (well, values are still evaluated).
 
 
 
