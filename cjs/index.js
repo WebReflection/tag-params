@@ -1,13 +1,35 @@
 'use strict';
-const noop = s => s;
+/**
+ * @typedef {object} ParseResult an object with parsed results
+ * @property {string[]} template - the list of chunks around interpolations
+ * @property {string[]} values - interpolations as strings
+ */
+
+/**
+ * @typedef {[string[], ...any[]]} TagArguments an array to use as template
+ *                                              literals tag arguments
+ */
+
+/**
+ * @callback Partial a callback that re-evaluate each time new data associated
+ *                   to the same template-like array.
+ * @param {object} [object] the optional data to evaluate as interpolated values
+ * @returns {TagArguments} an array to use as template literals tag arguments
+ */
+
+/**
+* The default `transform` callback
+* @param {string} value the interpolation value as string
+*/
+const noop = value => value;
 
 /**
  * Given a string and an optional object carrying references used through
  * such string interpolation, returns an array that can be used within any
  * template literal function tag.
  * @param {string} content the string to parse/convert as template chunks
- * @param {any} [object] the optional data to evaluate as interpolated values
- * @returns {Array} a [[chunks], ...values] array to use as template tag args
+ * @param {object} [object] the optional data to evaluate as interpolated values
+ * @returns {TagArguments} an array to use as template literals tag arguments
  */
 const params = (content, object) => partial(content)(object);
 exports.params = params;
@@ -19,7 +41,7 @@ exports.params = params;
  * and all its interpolations as strings.
  * @param {string} content the string to parse/convert as template chunks
  * @param {function} [transform] the optional function to modify string values
- * @returns {object} an object with `template` and `values` arrays.
+ * @returns {ParseResult} an object with `template` and `values` arrays.
  */
 const parse = (content, transform) => {
   const fn = transform || noop;
@@ -58,8 +80,8 @@ exports.parse = parse;
  * repeatedly generate new content from the same template array.
  * @param {string} content the string to parse/convert as template chunks
  * @param {function} [transform] the optional function to modify string values
- * @returns {function} a function that accepts an optional object to generate
- *                     new content, through the same template, each time.
+ * @returns {Partial} a function that accepts an optional object to generate
+ *                    new content, through the same template, each time.
  */
 const partial = (content, transform) => {
   const {template, values} = parse(content, transform);
