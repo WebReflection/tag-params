@@ -33,14 +33,14 @@ There are 3 utilities exported by this module, so that accordingly with your imp
   * `partial`, which uses `parse` and returns a callback that will map new values through the optional `object` passed along.
 
 
-### params(content:string[, object:any]):Array
+### params(content:string, object?:any) => [string[], ...any[]]
 
 It's the "_default_" use case of this utility. It parses the `content` and returns a `[template, ...values]` _Array_ with values retrieved through the optional `object`. If no `object` is passed along, it simply evaluates interpolations as plain JavaScript.
 
 This utility is a shortcut for a one-off `partial(content)(object)` call.
 
 
-### parse(content:string[, transform:function]):({template:Array, values:Array})
+### parse(content:string, transform?:function) => {template:string[], values:string[]}
 
 It parses a string, and it uses the optional `transform` callback, which is _no-op_ as default, to assign each _value_ to the list of expected _values_.
 
@@ -49,7 +49,7 @@ The `transform` optional callback is specially useful when the interpolated cont
 The `template` property contains all chunks around `${...}` interpolations, while `values` contains all interpolations content as string.
 
 
-### partial(content:string[, transform:function]):function
+### partial(content:string, transform?:function) => (object?) => [string[], ...any[]]
 
 This utility parses the `content` through an optional `transform`, and returns a _callback_ that accepts a new object each time.
 
