@@ -23,36 +23,6 @@ console.log(
 genericTag(...params(content, namespace));
 ```
 
-The most requested use case for this is likely landing templates on the page and use their content, [as shown in this CodePen example](https://codepen.io/WebReflection/pen/OJMRZow?editors=0010):
-
-```html
-<template id="list">
-  <ul>${items.map(function (item) {
-    return html`<li>${item.text}</li>`;
-  })}</ul>
-</template>
-<div id="app"></div>
-
-<script type="module">
-import {params} from '//unpkg.com/tag-params?module';
-import {render, html} from '//unpkg.com/uhtml?module';
-
-render(
-  document.getElementById('app'),
-  html(...params(
-    document.getElementById('list').innerHTML,
-    {
-      html,
-      items: [{text: 'first'}, {text: 'second'}]
-    }
-  ))
-);
-</script>
-```
-
-Please note this module inevitably needs/uses `Function` to evaluate the code within a `with` statement.
-
-
 
 ## API
 
@@ -106,9 +76,45 @@ The main advantage of this utility is that it parses the `content` and it create
 
 
 
+## Use Cases
+
+The most common/requested use case for this is likely landing templates on the page and use their content, [as shown in this CodePen example](https://codepen.io/WebReflection/pen/OJMRZow?editors=0010):
+
+```html
+<template id="list">
+  <ul>${items.map(function (item) {
+    return html`<li>${item.text}</li>`;
+  })}</ul>
+</template>
+<div id="app"></div>
+
+<script type="module">
+import {params} from '//unpkg.com/tag-params?module';
+import {render, html} from '//unpkg.com/uhtml?module';
+
+render(
+  document.getElementById('app'),
+  html(...params(
+    document.getElementById('list').innerHTML,
+    {
+      html,
+      items: [{text: 'first'}, {text: 'second'}]
+    }
+  ))
+);
+</script>
+```
+
+This works well with libraries such as [uhtml](https://github.com/WebReflection/uhtml#readme), [lighterhtml](https://github.com/WebReflection/lighterhtml#readme), or [hyperHTML](https://github.com/WebReflection/hyperHTML#readme), as well as any library based on template literals tags.
+
+However, this module can work with literally any possible template literal tag function, as these all share the same signature, hence will accept transformed chunks, as _template_, and the rest of the interpolations as _values_.
+
+
 ## Caveats
 
-The current interpolations parser is extremely rudimental, it simply skips extra `{` and `}` chars within the value, but it doesn't parse all possible JS syntax.
+Please note this module inevitably needs/uses `Function` to evaluate the code within a `with` statement, as there's no other way to evaluated interpolations through passed data.
+
+Moreover, the current interpolations parser is extremely rudimental, it simply skips extra `{` and `}` chars within the value, but it doesn't parse all possible JS syntax.
 
 This means that if an interpolation contains a string such as `${"breaking { char"}` or `${"breaking } char"}` the result will break.
 
