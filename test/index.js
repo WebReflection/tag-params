@@ -37,20 +37,25 @@ console.assert(
 
 setTimeout(stringify => {
   const length = 500;
+  const tpl = 'Hello ${user}!';
+
   const partialResult = [];
   console.time('partial');
-  for (let i = 0; i < length; i++)
-    partialResult.push(update({user: i}));
+  const update = partial(tpl);
+  for (let user = 0; user < length; user++)
+    partialResult.push(update({user}));
   console.timeEnd('partial');
 
   const paramsResult = [];
   console.time('params');
-  for (let i = 0; i < length; i++)
-    paramsResult.push(params('Hello ${user}!', {user: i}));
+  for (let user = 0; user < length; user++)
+    paramsResult.push(params(tpl, {user}));
   console.timeEnd('params');
 
   console.assert(
-    partialResult.every((args, i) => stringify(args) === stringify(paramsResult[i])),
+    partialResult.every(
+      (args, i) => stringify(args) === stringify(paramsResult[i])
+    ),
     'same outcome'
   );
 }, 500, JSON.stringify);
