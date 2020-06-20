@@ -27,6 +27,12 @@ self.tagParams = (function (exports) {
     return value;
   };
   /**
+   * The default "null" fallback when no object is passed to the Partial.
+   */
+
+
+  var fallback = Object.create(null);
+  /**
    * Given a string and an optional object carrying references used through
    * such string interpolation, returns an array that can be used within any
    * template literal function tag.
@@ -34,7 +40,6 @@ self.tagParams = (function (exports) {
    * @param {object} [object] the optional data to evaluate as interpolated values
    * @returns {TagArguments} an array to use as template literals tag arguments
    */
-
 
   var params = function params(content, object) {
     return partial(content)(object);
@@ -99,10 +104,10 @@ self.tagParams = (function (exports) {
         template = _parse.template,
         values = _parse.values;
 
-    var interpolations = 'return[' + values + ']';
+    var args = [template];
+    var rest = Function('return function(){with(arguments[0])return[' + values + ']}')();
     return function (object) {
-      var prefix = object ? 'with(arguments[0])' : '';
-      return [template].concat(Function(prefix + interpolations)(object));
+      return args.concat(rest(object || fallback));
     };
   };
 

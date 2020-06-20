@@ -23,6 +23,11 @@
 const noop = value => value;
 
 /**
+ * The default "null" fallback when no object is passed to the Partial.
+ */
+const fallback = Object.create(null);
+
+/**
  * Given a string and an optional object carrying references used through
  * such string interpolation, returns an array that can be used within any
  * template literal function tag.
@@ -82,9 +87,9 @@ export const parse = (content, transform) => {
  */
 export const partial = (content, transform) => {
   const {template, values} = parse(content, transform);
-  const interpolations = 'return[' + values + ']';
-  return object => {
-    const prefix = object ? 'with(arguments[0])' : '';
-    return [template].concat(Function(prefix + interpolations)(object));
-  };
+  const args = [template];
+  const rest = Function(
+    'return function(){with(arguments[0])return[' + values + ']}'
+  )();
+  return object => args.concat(rest(object || fallback));
 };

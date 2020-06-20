@@ -1,3 +1,5 @@
+'use strict';
+
 const {params, partial} = require('../cjs');
 
 const tag = (template, ...values) => {
@@ -32,3 +34,23 @@ console.assert(
   update({user: 'Second'})[0],
   'partial returns always the same template'
 );
+
+setTimeout(stringify => {
+  const length = 500;
+  const partialResult = [];
+  console.time('partial');
+  for (let i = 0; i < length; i++)
+    partialResult.push(update({user: i}));
+  console.timeEnd('partial');
+
+  const paramsResult = [];
+  console.time('params');
+  for (let i = 0; i < length; i++)
+    paramsResult.push(params('Hello ${user}!', {user: i}));
+  console.timeEnd('params');
+
+  console.assert(
+    partialResult.every((args, i) => stringify(args) === stringify(paramsResult[i])),
+    'same outcome'
+  );
+}, 500, JSON.stringify);
