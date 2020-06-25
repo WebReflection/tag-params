@@ -72,7 +72,7 @@ console.assert(
 );
 ```
 
-The main advantage of this utility is that it parses the `content` and it creates the `template` _Array_ only **once**, meaning every template literal based library could benefit from it, using the uniqueness of the `template` to parse complex chunks of _HTML_, or anything else, once, enabling repeated updates at almost zero performance cost (well, values are still evaluated).
+The main advantage of this utility is that it parses the `content` and it creates the `template` _Array_ only **once**, meaning every template literal based library could benefit from it, using the uniqueness of the `template` to parse complex chunks of _HTML_, or anything else, once, enabling repeated updates at almost zero performance cost.
 
 
 
@@ -112,7 +112,7 @@ However, this module can work with literally any possible template literal tag f
 
 ## Caveats
 
-Please note this module inevitably needs/uses `Function` to evaluate the code within a `with` statement, as there's no other way to evaluated interpolations through passed data.
+Please note this module inevitably needs/uses `Function` to evaluate the code within a `with` statement, as there's no other way to evaluate interpolations through passed data.
 
 Moreover, the current interpolations parser is extremely rudimental, it simply skips extra `{` and `}` chars within the value, but it doesn't parse all possible JS syntax.
 
